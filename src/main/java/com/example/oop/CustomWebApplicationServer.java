@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.example.HttpRequest;
+import com.example.HttpResponse;
 import com.example.QueryStrings;
 import com.example.calculator.domain.Calculator;
 import com.example.calculator.domain.PositiveNumber;
@@ -64,6 +65,11 @@ public class CustomWebApplicationServer {
                 		int operand2 = Integer.parseInt(queryStrings.getValue("operand2"));
                 		
                 		int result = Calculator.calculate(new PositiveNumber(operand1), operator,new PositiveNumber(operand2));
+                		byte[] body = String.valueOf(result).getBytes();
+                		
+                		HttpResponse response = new HttpResponse(dos);
+                		response.response200Header("application/json", body.length);
+                		response.responseBody(body);
                 	}
                 }
             }
